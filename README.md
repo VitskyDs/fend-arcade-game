@@ -13,6 +13,10 @@ This funciton reset the game by placing the player and enemies at their starting
 ### `win()`
 This function runs as player reaches the other side. The function executes the `reset()` function, which in turn resets the game.
 
+### `update()`
+The `update()` function runs on every frame of the game and updates the object's, be it the player of the enemy object, position, sets its speed and checks for collision.
+
+
 License
 ----
 
