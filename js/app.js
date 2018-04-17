@@ -1,6 +1,6 @@
 const xStartPos = 200,
     yStartPos = 400,
-    xStartPosRoach = -100,
+    xStartPosEnemy = -100,
     yPositions = [50, 133, 216, 299],
     speeds = [1, 2, 3, 4, 5, 6];
 
@@ -8,7 +8,7 @@ const reset = () => {
     player.x = xStartPos;
     player.y = yStartPos;
     for (let i = 0; i < 3; i++) {
-        allEnemies[i].x = xStartPosRoach;
+        allEnemies[i].x = xStartPosEnemy;
         allEnemies[i].y = yPositions[Math.floor(Math.random() * 4)];
         allEnemies[i].speed = speeds[Math.floor(Math.random() * 5)];
     }
@@ -25,7 +25,7 @@ class Enemy {
     constructor() {
             // The image/sprite for our enemies
             this.sprite = 'images/enemy-bug.png';
-            this.x = xStartPosRoach;
+            this.x = xStartPosEnemy;
             this.speed = speeds[Math.floor(Math.random() * 5)];
         }
         // Draw the enemy on the screen, required method for game
@@ -39,15 +39,15 @@ class Enemy {
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += (this.speed * dt) * 75;
-        //return roach to start when leaves screen
+        //return Enemy to start when leaves screen
         if (this.x >= 500) {
-            this.x = xStartPosRoach;
+            this.x = xStartPosEnemy;
             this.y = yPositions[Math.floor(Math.random() * 4)];
             this.speed = speeds[Math.floor(Math.random() * 5)];
         } else {
             this.x = this.x;
         }
-        //check collision of Roach by avaluating x y positions
+        //check collision of Enemy by avaluating x y positions
         if (this.x < player.x + 55 && this.x > player.x - 55 && this.y < player.y + 45 && this.y > player.y - 45) {
             reset();
             console.log('hit');
