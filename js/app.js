@@ -4,10 +4,14 @@ const xStartPos = 200,
     yPositions = [50, 133, 216, 299],
     speeds = [1, 2, 3, 4, 5, 6];
 
+let gameOn = false;
+
 const startButton = document.getElementById('start-game'),
     restartButton = document.getElementById('restart-game'),
     loseModal = document.getElementById('lose-modal'),
     modal = document.getElementsByClassName('modal');
+
+/*Core Functions*/
 
 // reset function resets the game by placing the player and enemies at their starting position.
 const reset = () => {
@@ -25,10 +29,12 @@ const reset = () => {
 const win = () => {
     alert('You won!');
     reset();
+    gameOn = false;
 }
 
 const gameOver = () => {
     loseModal.classList.toggle('display-none');
+    gameOn = false;
 }
 
 // The Enemy class
@@ -123,15 +129,21 @@ class Player {
 const player = new Player();
 let allEnemies = [];
 
+
+/*user inputs*/
+
 //start button: start the game and hides the start button
 startButton.addEventListener('click', function () {
+    gameOn = true;
     for (let i = 0; i < 3; i++) {
         allEnemies[i] = new Enemy();
     }
     startButton.classList.toggle('display-none');
 });
 
+//retart button: restart the game and hides the game over modal
 restartButton.addEventListener('click', function () {
+    gameOn = true;
     player.lives = 3;
     for (let i = 0; i < 3; i++) {
         allEnemies[i] = new Enemy();
@@ -148,5 +160,7 @@ document.addEventListener('keyup', function (e) {
         39: 'right',
         40: 'down'
     };
-    player.handleInput(allowedKeys[e.keyCode]);
+    if (gameOn) {
+        player.handleInput(allowedKeys[e.keyCode]);
+    }
 });
