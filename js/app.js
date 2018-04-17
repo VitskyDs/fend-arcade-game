@@ -15,7 +15,6 @@ const reset = () => {
 }
 
 const win = () => {
-        console.log('win');
         reset();
     }
     // Enemies our player must avoid
