@@ -5,6 +5,7 @@ const xStartPos = 200,
     speeds = [1, 2, 3, 4, 5, 6];
 
 const startButton = document.getElementById('start-game'),
+    restartButton = document.getElementById('restart-game'),
     loseModal = document.getElementById('lose-modal'),
     modal = document.getElementsByClassName('modal');
 
@@ -28,7 +29,6 @@ const win = () => {
 
 const gameOver = () => {
     loseModal.classList.toggle('display-none');
-    startButton.classList.remove('display-none');
 }
 
 // The Enemy class
@@ -45,7 +45,12 @@ class Enemy {
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
-    // Update the enemy's position
+    reset() {
+            this.x = xStartPosEnemy;
+            this.y = yPositions[Math.floor(Math.random() * 4)];
+            this.speed = speeds[Math.floor(Math.random() * 5)];
+        }
+        // Update the enemy's position
     update(dt) {
         // multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
@@ -61,13 +66,7 @@ class Enemy {
         }
         //check collision of Enemy by avaluating x y positions
         if (this.x < player.x + 55 && this.x > player.x - 55 && this.y < player.y + 45 && this.y > player.y - 45) {
-            player.lives--;
-            //check if player has any lives left
-            if (player.lives === 0) {
-                gameOver();
-            } else {
-                reset();
-            }
+            player.loseLife();
         }
     };
 };
@@ -87,6 +86,19 @@ class Player {
     update(dt) {
         if (player.y === -15) {
             win();
+        }
+    }
+    reset() {
+        this.x = xStartPos;
+        this.y = yStartPos;
+    }
+    loseLife() {
+        this.lives--;
+        //check if player has any lives left
+        if (player.lives === 0) {
+            gameOver();
+        } else {
+            player.reset();
         }
     }
     handleInput(key) {
@@ -113,11 +125,18 @@ let allEnemies = [];
 
 //start button: start the game and hides the start button
 startButton.addEventListener('click', function () {
-    player.lives = 3;
     for (let i = 0; i < 3; i++) {
         allEnemies[i] = new Enemy();
     }
     startButton.classList.toggle('display-none');
+});
+
+restartButton.addEventListener('click', function () {
+    player.lives = 3;
+    for (let i = 0; i < 3; i++) {
+        allEnemies[i] = new Enemy();
+    }
+    loseModal.classList.toggle('display-none');
 });
 
 // This listens for key presses and sends the keys to your
@@ -130,13 +149,4 @@ document.addEventListener('keyup', function (e) {
         40: 'down'
     };
     player.handleInput(allowedKeys[e.keyCode]);
-});
-
-//close modal on click everywhere outside of modal
-document.addEventListener('click', function (event) {
-    //if you click on anything except the modal itself close the modal
-    var isClickInside = loseModal.contains(event.target);
-    if (!isClickInside) {
-        loseModal.classList.add('display-none');
-    };
 });
