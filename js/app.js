@@ -4,7 +4,8 @@ const xStartPos = 200,
     yPositions = [50, 133, 216, 299],
     speeds = [1, 2, 3, 4, 5, 6];
 
-const startButton = document.getElementById('start-game');
+const startButton = document.getElementById('start-game'),
+      loseModal = document.getElementById('lose-modal');
 
 // reset function resets the game by placing the player and enemies at their starting position.
 const reset = () => {
@@ -54,8 +55,15 @@ class Enemy {
         }
         //check collision of Enemy by avaluating x y positions
         if (this.x < player.x + 55 && this.x > player.x - 55 && this.y < player.y + 45 && this.y > player.y - 45) {
+            player.lives--;
+            //check if player has any lives left
+            if (player.lives === 0) {
+                //game over
+                loseModal.classList.toggle('display-none');
+            }
             reset();
-            console.log('hit');
+
+
         }
     };
 };
@@ -67,6 +75,7 @@ class Player {
         this.sprite = 'images/char-pink-girl.png';
         this.x = xStartPos;
         this.y = yStartPos;
+        this.lives = 3;
     }
     render() {
         ctx.drawImage(Resources.get('images/char-pink-girl.png'), this.x, this.y);

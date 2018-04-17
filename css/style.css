@@ -1,8 +1,29 @@
 body {
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 /*Generic*/
 .display-none {
-    display: none;
+    display: none !important;
+}
+
+/*Modal*/
+.modal {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-container {
+    height: 200px;
+    width: 300px;
+    padding: 16px;
+    box-sizing: border-box;
+    background: white;
 }
