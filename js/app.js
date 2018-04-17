@@ -4,6 +4,8 @@ const xStartPos = 200,
     yPositions = [50, 133, 216, 299],
     speeds = [1, 2, 3, 4, 5, 6];
 
+const startButton = document.getElementById('start-game');
+
 // reset function resets the game by placing the player and enemies at their starting position.
 const reset = () => {
     player.x = xStartPos;
@@ -93,12 +95,16 @@ class Player {
 }
 
 // Instantiating enemies and player
-const allEnemies = [];
 const player = new Player();
+let allEnemies = [];
 
-for (let i = 0; i < 3; i++) {
-    allEnemies[i] = new Enemy();
-}
+//start button: start the game and hides the start button
+startButton.addEventListener('click', function () {
+    for (let i = 0; i < 3; i++) {
+        allEnemies[i] = new Enemy();
+    }
+    startButton.classList.toggle('display-none');
+});
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method.
