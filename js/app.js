@@ -5,7 +5,8 @@ const xStartPos = 200,
     speeds = [1, 2, 3, 4, 5, 6];
 
 const startButton = document.getElementById('start-game'),
-      loseModal = document.getElementById('lose-modal');
+    loseModal = document.getElementById('lose-modal'),
+    modal = document.getElementsByClassName('modal');
 
 // reset function resets the game by placing the player and enemies at their starting position.
 const reset = () => {
@@ -125,4 +126,14 @@ document.addEventListener('keyup', function (e) {
         40: 'down'
     };
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+//close modal on click everywhere outside of modal
+document.addEventListener('click', function (event) {
+    //if you click on anything except the modal itself close the modal
+    var isClickInside = loseModal.contains(event.target);
+    if (!isClickInside) {
+        loseModal.classList.add('display-none');
+        startButton.classList.toggle('display-none');
+    };
 });
