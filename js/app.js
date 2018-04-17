@@ -26,6 +26,11 @@ const win = () => {
     reset();
 }
 
+const gameOver = () => {
+    loseModal.classList.toggle('display-none');
+    startButton.classList.remove('display-none');
+}
+
 // The Enemy class
 class Enemy {
     // Variables applied to each of our instances go here,
@@ -59,12 +64,10 @@ class Enemy {
             player.lives--;
             //check if player has any lives left
             if (player.lives === 0) {
-                //game over
-                loseModal.classList.toggle('display-none');
+                gameOver();
+            } else {
+                reset();
             }
-            reset();
-
-
         }
     };
 };
@@ -110,6 +113,7 @@ let allEnemies = [];
 
 //start button: start the game and hides the start button
 startButton.addEventListener('click', function () {
+    player.lives = 3;
     for (let i = 0; i < 3; i++) {
         allEnemies[i] = new Enemy();
     }
@@ -134,6 +138,5 @@ document.addEventListener('click', function (event) {
     var isClickInside = loseModal.contains(event.target);
     if (!isClickInside) {
         loseModal.classList.add('display-none');
-        startButton.classList.toggle('display-none');
     };
 });
