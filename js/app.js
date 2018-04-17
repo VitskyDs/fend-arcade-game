@@ -4,6 +4,7 @@ const xStartPos = 200,
     yPositions = [50, 133, 216, 299],
     speeds = [1, 2, 3, 4, 5, 6];
 
+// reset function resets the game by placing the player and enemies at their starting position.
 const reset = () => {
     player.x = xStartPos;
     player.y = yStartPos;
@@ -14,30 +15,32 @@ const reset = () => {
     }
 }
 
+// This function runs as player reaches the other side.
+//The function executes the `reset()` function
 const win = () => {
-        reset();
-    }
-    // Enemies our player must avoid
+    reset();
+}
+
+// The Enemy class
 class Enemy {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     constructor() {
-            // The image/sprite for our enemies
+            // The image for the sprite
             this.sprite = 'images/enemy-bug.png';
             this.x = xStartPosEnemy;
             this.speed = speeds[Math.floor(Math.random() * 5)];
         }
-        // Draw the enemy on the screen, required method for game
+        // Draw the enemy on the screen
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
+    // Update the enemy's position
     update(dt) {
-        // You should multiply any movement by the dt parameter
+        // multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
-        this.x += (this.speed * dt) * 75;
+        this.x += this.speed * 75 * dt;
         //return Enemy to start when leaves screen
         if (this.x >= 500) {
             this.x = xStartPosEnemy;
@@ -67,7 +70,6 @@ class Player {
     }
     update(dt) {
         if (player.y === -15) {
-            /*window.setTimeout(win, 150);*/
             win();
         }
     }
@@ -89,8 +91,7 @@ class Player {
     }
 }
 
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// Instantiating enemies and player
 const allEnemies = [];
 const player = new Player();
 
