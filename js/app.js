@@ -18,6 +18,7 @@ const reset = () => {
 // This function runs as player reaches the other side.
 //The function executes the `reset()` function
 const win = () => {
+    alert('You won!');
     reset();
 }
 
