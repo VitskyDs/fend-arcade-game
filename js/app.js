@@ -35,6 +35,8 @@ const win = () => {
 }
 
 const gameOver = () => {
+    player.reset();
+    livesWrapper.innerHTML = '';
     loseModal.classList.toggle('display-none');
     gameOn = false;
     clock.timer('pause');
@@ -91,7 +93,7 @@ class Player {
         this.lives = 3;
     }
     render() {
-        ctx.drawImage(Resources.get('images/char-pink-girl.png'), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
     update(dt) {
         if (player.y === -15) {
@@ -108,8 +110,7 @@ class Player {
         if (player.lives === 0) {
             gameOver();
         } else {
-            livesWrapper.removeChild(livesWrapper.firstChild);
-            livesWrapper.removeChild(livesWrapper.firstChild);
+            livesWrapper.removeChild(livesWrapper.lastChild);
             player.reset();
         }
     }
