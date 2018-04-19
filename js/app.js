@@ -2,14 +2,16 @@ const xStartPos = 200,
     yStartPos = 400,
     xStartPosEnemy = -100,
     yPositions = [50, 133, 216, 299],
-    speeds = [1, 2, 3, 4, 5, 6];
+    speeds = [1, 2, 3, 4, 5, 6],
+    clock = $('#timer');
 
 let gameOn = false;
 
 const startButton = document.getElementById('start-game'),
     restartButton = document.getElementById('restart-game'),
     loseModal = document.getElementById('lose-modal'),
-    modal = document.getElementsByClassName('modal');
+    modal = document.getElementsByClassName('modal'),
+    livesWrapper = document.getElementById('lives');
 
 /*Core Functions*/
 
@@ -35,7 +37,10 @@ const win = () => {
 const gameOver = () => {
     loseModal.classList.toggle('display-none');
     gameOn = false;
+    clock.timer('pause');
 }
+
+/*Object Constructors*/
 
 // The Enemy class
 class Enemy {
@@ -72,13 +77,12 @@ class Enemy {
         }
         //check collision of Enemy by avaluating x y positions
         if (this.x < player.x + 55 && this.x > player.x - 55 && this.y < player.y + 45 && this.y > player.y - 45) {
-            player.loseLife();
+            window.setTimeout(player.loseLife(), 50);
         }
     };
 };
 
 // Player class
-
 class Player {
     constructor() {
         this.sprite = 'images/char-pink-girl.png';
@@ -104,6 +108,8 @@ class Player {
         if (player.lives === 0) {
             gameOver();
         } else {
+            livesWrapper.removeChild(livesWrapper.firstChild);
+            livesWrapper.removeChild(livesWrapper.firstChild);
             player.reset();
         }
     }
@@ -139,6 +145,7 @@ startButton.addEventListener('click', function () {
         allEnemies[i] = new Enemy();
     }
     startButton.classList.toggle('display-none');
+    clock.timer('resume');
 });
 
 //retart button: restart the game and hides the game over modal
@@ -147,8 +154,12 @@ restartButton.addEventListener('click', function () {
     player.lives = 3;
     for (let i = 0; i < 3; i++) {
         allEnemies[i] = new Enemy();
+        const life = document.createElement("div");
+        livesWrapper.appendChild(life);
     }
     loseModal.classList.toggle('display-none');
+    clock.timer('reset');
+    clock.timer('resume');
 });
 
 // This listens for key presses and sends the keys to your
@@ -164,3 +175,14 @@ document.addEventListener('keyup', function (e) {
         player.handleInput(allowedKeys[e.keyCode]);
     }
 });
+
+/*Timer*/
+clock.timer({
+    format: '%M:%S',
+    countdown: true,
+    duration: 30,
+    callback: function () {
+        gameOver()
+    }
+});
+clock.timer('pause');

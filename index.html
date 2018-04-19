@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
+    <title>Frogger Game</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+
+    <!--Lose modal-->
     <div id="lose-modal" class="modal display-none">
         <div class="modal-container">
             <h1>Game Over</h1>
@@ -15,8 +17,26 @@
             <button id="restart-game" role="button">Try again</button>
         </div>
     </div>
-    <div id="canvas-container"></div>
-    <button id="start-game" role="button">Start</button>
+
+    <!--main container-->
+    <main>
+        <div class="status-bar">
+            <div id="lives" class="lives-wrapper">
+                <div class="player-icon"></div>
+                <div class="player-icon"></div>
+                <div class="player-icon"></div>
+            </div>
+            <div class="timer">
+                <div id="timer"></div>
+            </div>
+        </div>
+        <div id="canvas-container"></div>
+        <button id="start-game" role="button">Start</button>
+    </main>
+
+    <!--Sctipts-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timer.jquery/0.7.0/timer.jquery.js"></script>
 
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
